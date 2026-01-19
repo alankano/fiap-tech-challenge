@@ -1,0 +1,13 @@
+github.com//gustavoLima93
+
+Controller -> endpoints que serão expostos
+Service -> regras de negócio
+Repository -> comunicação com o banco de dados
+    Tem se os métodos padrões do JPA e pode ter métodos personalizados
+RepositoryImpl -> implementação das operações do repositório
+    É feito um override dos métodos personalizados do Repository
+Model -> representação das entidades do sistema
+DTO -> objetos de transferência de dados entre camadas
+Mapper -> responsável por converter entre Model e DTO
+Exception -> tratamento de exceções personalizadas
+Config -> classes de configuração do sistema

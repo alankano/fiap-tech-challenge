@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    image: tech-challenge:latest # Substitua pelo nome da imagem do seu app
+    build:
+      context: .
+      dockerfile: Dockerfile # O Dockerfile será usado para construir a imagem da aplicação
+    container_name: tech-challenge-container
+    networks:
+      - spring-mysql-network
+    ports:
+      - "8080:8080" # Porta do app exposta
+    depends_on:
+      - mysql # Garante que o banco suba antes da aplicação
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/my_database
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  mysql:
+    image: mysql:8 # Use a versão do MySQL desejada
+    container_name: mysql-container
+    networks:
+      - spring-mysql-network
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    volumes:
+      - mysql-data:/var/lib/mysql # Persistência de dados
+
+networks:
+  spring-mysql-network: # Define a rede personalizada para os serviços
+    driver: bridge
+
+volumes:
+  mysql-data: # Volume para persistir os dados do banco
