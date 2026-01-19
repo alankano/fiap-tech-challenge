@@ -3,9 +3,9 @@ spring:
     name: tech-challenge
   datasource:
     url: jdbc:h2:mem:localtech
-    driverClassName: org.h2.Driver
     username: sa
     password: password
+    driverClassName: org.h2.Driver
   h2:
     console:
       enabled: true

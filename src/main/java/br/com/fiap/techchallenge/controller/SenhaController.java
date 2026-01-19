@@ -57,10 +57,4 @@ public class SenhaController {
         return ResponseEntity.status(responseStatus.value()).build();
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updateSenhaSemId() {
-        throw new BadRequestException("Parâmetro 'id' é obrigatório na URL. Use /path/{id}");
-    }
-
-
 }

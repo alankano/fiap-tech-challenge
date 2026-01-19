@@ -65,6 +65,15 @@ public class UsuarioService {
     }
 
     public void updateUsuario(Usuario usuario, Long id) {
+        String email = usuario.getEmail();
+
+        if (email != null && !email.isBlank()) {
+            var emailExistente = usuarioRepository.findUsuarioByEmail(usuario);
+            if (emailExistente.isPresent() && !emailExistente.get().getId().equals(id)) {
+                throw new InvalidUsuarioException("Email já cadastrado: " + email);
+            }
+        }
+
         var update = usuarioRepository.updateUsuario(usuario, id);
         if (update == 0) {
             throw new InvalidUsuarioException("Usuario não encontrado para atualização: " + id);

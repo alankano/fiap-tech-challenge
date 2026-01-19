@@ -15,7 +15,6 @@ INSERT INTO usuarios (nome, email, login, senha, data_ultima_alteracao, endereco
 ('mozao', 'mozao1@gmail.com', 'mozao', 'mozao123', CURRENT_DATE , 'SAO PAULO, SP', '2');
 
 CREATE TABLE tipoUsuarios (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    idTipo VARCHAR(50) NOT NULL,
+    idTipo BIGINT AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(255) NOT NULL
 );

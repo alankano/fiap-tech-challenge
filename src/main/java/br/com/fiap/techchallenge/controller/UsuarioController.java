@@ -109,14 +109,14 @@ public class UsuarioController {
         return ResponseEntity.ok(usuario);
     }
 
-    @Operation(description = "Busca usuario por id",
-            summary = "Busca usuario por id",
+    @Operation(description = "Salva usuario",
+            summary = "Salva usuario",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Dados do usuário a ser criado",
                     required = true
             ),
             responses = {
-                    @ApiResponse(description = "OK", responseCode = "200"),
+                    @ApiResponse(description = "OK", responseCode = "204"),
                     @ApiResponse(description = "Erro interno do servidor", responseCode = "500"),
                     @ApiResponse(description = "Erro no envio dos parâmetros", responseCode = "400")
 
