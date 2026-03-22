@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateTipoUsuarioRecord {
 
-    @NotBlank
+    @NotBlank(message = "O campo tipo é obrigatório")
     private String tipo;
 
 }

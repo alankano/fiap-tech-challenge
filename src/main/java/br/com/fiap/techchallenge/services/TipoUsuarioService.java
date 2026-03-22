@@ -1,16 +1,14 @@
 package br.com.fiap.techchallenge.services;
 
-import br.com.fiap.techchallenge.dto.ResponseItemRecord;
+
 import br.com.fiap.techchallenge.dto.ResponseTipoUsuarioRecord;
-import br.com.fiap.techchallenge.dto.UpdateItemRecord;
 import br.com.fiap.techchallenge.dto.UpdateTipoUsuarioRecord;
-import br.com.fiap.techchallenge.entities.Item;
-import br.com.fiap.techchallenge.entities.Restaurante;
 import br.com.fiap.techchallenge.entities.TipoUsuario;
 import br.com.fiap.techchallenge.repositories.TipoUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.com.fiap.techchallenge.services.exceptions.InvalidTipoUsuarioException;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class TipoUsuarioService {
 
     public List<TipoUsuario> acharTodosOsTipos(int page, int size) {
         if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("page must be >= 0 and size > 0");
+            throw new InvalidTipoUsuarioException("page must be >= 0 and size > 0");
         }
         int offset = (page - 1) * size;
         return tipoUsuarioRepository.findAllTipoUsuario(size, offset);
@@ -36,7 +34,7 @@ public class TipoUsuarioService {
     public TipoUsuario criar(TipoUsuario tipoUsuario) {
 
         if (tipoUsuarioRepository.existsByTipo(tipoUsuario.getTipo())) {
-            throw new IllegalArgumentException("Tipo de usuario com este nome já existe!");
+            throw new InvalidTipoUsuarioException("Tipo de usuario com este nome já existe!");
         }
 
         return tipoUsuarioRepository.save(tipoUsuario);
@@ -47,7 +45,7 @@ public class TipoUsuarioService {
     public ResponseTipoUsuarioRecord atualizar(Long id, UpdateTipoUsuarioRecord updateTipoUsuarioRecord) {
 
         TipoUsuario tipoUsuario = tipoUsuarioRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Tipo de usuário não encontrado!"));
+                .orElseThrow(() -> new InvalidTipoUsuarioException("Tipo de usuário não encontrado!"));
 
         tipoUsuario.setTipo(updateTipoUsuarioRecord.getTipo());
 
@@ -60,7 +58,7 @@ public class TipoUsuarioService {
     public void deletar(Long id) {
 
         if (!tipoUsuarioRepository.existsById(id)) {
-            throw new IllegalArgumentException("Tipo de usuário não encontrado!");
+            throw new InvalidTipoUsuarioException("Tipo de usuário não encontrado!");
         }
 
         tipoUsuarioRepository.deleteById(id);

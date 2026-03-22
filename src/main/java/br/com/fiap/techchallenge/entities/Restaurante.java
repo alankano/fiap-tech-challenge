@@ -21,7 +21,7 @@ public class Restaurante implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "ID único do item", example = "1")
+    @Schema(description = "ID único do restaurante", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -68,4 +68,28 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status.value()).body(new ExceptionDto(ex.getMessage(), status.value()));
     }
 
+    @ExceptionHandler(InvalidTipoUsuarioException.class)
+    public ResponseEntity<ExceptionDto> handlerBadRequestException(InvalidTipoUsuarioException ex) {
+
+        logger.warn("Bad request: {}", ex.getMessage());
+        var status = HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status.value()).body(new ExceptionDto(ex.getMessage(), status.value()));
+    }
+
+    @ExceptionHandler(InvalidItemException.class)
+    public ResponseEntity<ExceptionDto> handlerBadRequestException(InvalidItemException ex) {
+
+        logger.warn("Bad request: {}", ex.getMessage());
+        var status = HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status.value()).body(new ExceptionDto(ex.getMessage(), status.value()));
+    }
+
+    @ExceptionHandler(InvalidRestauranteException.class)
+    public ResponseEntity<ExceptionDto> handlerBadRequestException(InvalidRestauranteException ex) {
+
+        logger.warn("Bad request: {}", ex.getMessage());
+        var status = HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status.value()).body(new ExceptionDto(ex.getMessage(), status.value()));
+    }
+
 }

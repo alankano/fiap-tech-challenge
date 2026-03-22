@@ -26,20 +26,17 @@ public class ItemService {
         this.restaurantesRepository = restaurantesRepository;
     }
 
-//    public List<Item> acharItens(int page, int size) {
-//        if (page < 0 || size <= 0) {
-//            throw new IllegalArgumentException("page must be >= 0 and size > 0");
-//        }
-//        int offset = (page - 1) * size;
-//        return itemRepository.findAllItem(size, offset);
-//    }
-
     public List<Item> acharItensPorRestaurante(Long restauranteId, int page, int size) {
         if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("page must be >= 0 and size > 0");
+            throw new InvalidItemException("page must be >= 0 and size > 0");
         }
+
+        if (restauranteId == null || !itemRepository.existsRestauranteById(restauranteId)) {
+            throw new InvalidItemException("Restaurante não encontrado!");
+        }
+
         int offset = (page - 1) * size;
-        return itemRepository.findByRestauranteId(restauranteId);
+        return itemRepository.findByRestauranteId(restauranteId, size, offset).orElseThrow(() -> new InvalidItemException("Restaurante não encontrado"));
     }
 
     public Item findByNomeItem(String nome) {
@@ -51,11 +48,17 @@ public class ItemService {
 
         // Check uniqueness per restaurante
         if (itemRepository.existsByNomeAndRestauranteId(item.getNome(), restauranteId)) {
-            throw new IllegalArgumentException("Item com este nome já existe neste restaurante!");
+            throw new InvalidItemException("Item com este nome já existe neste restaurante!");
         }
 
+        // validate restaurante exists using repository method
+        if (restauranteId == null || !itemRepository.existsRestauranteById(restauranteId)) {
+            throw new InvalidItemException("Restaurante não encontrado!");
+        }
+
+        // fetch restaurante and associate
         Restaurante restaurante = restaurantesRepository.findById(restauranteId)
-                .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado!"));
+                .orElseThrow(() -> new InvalidItemException("Restaurante não encontrado!"));
 
         item.setRestaurante(restaurante);
         return itemRepository.save(item);
@@ -66,7 +69,7 @@ public class ItemService {
     public ResponseItemRecord atualizar(Long id, UpdateItemRecord updateItemRecord) {
 
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado!"));
+                .orElseThrow(() -> new InvalidItemException("Item não encontrado!"));
 
         item.setNome(updateItemRecord.getNome());
         item.setDescricao(updateItemRecord.getDescricao());
@@ -84,7 +87,7 @@ public class ItemService {
     public void deletar(Long id) {
 
         if (!itemRepository.existsById(id)) {
-            throw new IllegalArgumentException("Restaurante não encontrado!");
+            throw new InvalidItemException("Item não encontrado!");
         }
 
         itemRepository.deleteById(id);

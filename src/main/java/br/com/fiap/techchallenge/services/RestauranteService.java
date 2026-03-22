@@ -5,6 +5,7 @@ import br.com.fiap.techchallenge.dto.ResponseRestauranteRecord;
 import br.com.fiap.techchallenge.dto.UpdateRestauranteRecord;
 import br.com.fiap.techchallenge.entities.Restaurante;
 import br.com.fiap.techchallenge.repositories.RestaurantesRepository;
+import br.com.fiap.techchallenge.repositories.UsuarioRepository;
 import br.com.fiap.techchallenge.services.exceptions.InvalidRestauranteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,12 @@ public class RestauranteService {
     @Autowired
     private final RestaurantesRepository restaurantesRepository;
 
-    public RestauranteService(RestaurantesRepository restaurantesRepository) {
+    @Autowired
+    private final UsuarioRepository usuarioRepository;
+
+    public RestauranteService(RestaurantesRepository restaurantesRepository, UsuarioRepository usuarioRepository) {
         this.restaurantesRepository = restaurantesRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public List<Restaurante> findAllRestaurantes(int page, int size) {
@@ -37,10 +42,29 @@ public class RestauranteService {
     public ResponseRestauranteRecord criar(CreateRestauranteRecord createRestauranteRecord) {
 
         if (restaurantesRepository.existsByNome(createRestauranteRecord.getNome())) {
-            throw new IllegalArgumentException("Restaurante com este nome já existe!");
+            throw new InvalidRestauranteException("Restaurante com este nome já existe!");
         }
 
         // Criar entidade
+        // defensive validation: ensure nome is not blank
+        if (createRestauranteRecord.getNome() == null || createRestauranteRecord.getNome().isBlank()) {
+            throw new InvalidRestauranteException("Nome do restaurante é obrigatório");
+        }
+
+        // validate idUsuario exists (idUsuario is provided as String in DTO)
+        if (createRestauranteRecord.getIdUsuario() == null || createRestauranteRecord.getIdUsuario().isBlank()) {
+            throw new InvalidRestauranteException("idUsuario é obrigatório");
+        }
+        Long usuarioId;
+        try {
+            usuarioId = Long.parseLong(createRestauranteRecord.getIdUsuario());
+        } catch (NumberFormatException ex) {
+            throw new InvalidRestauranteException("idUsuario inválido");
+        }
+        if (usuarioRepository.findUsuarioById(usuarioId).isEmpty()) {
+            throw new InvalidRestauranteException("Usuário não encontrado!");
+        }
+
         Restaurante restaurante = new Restaurante();
         restaurante.setNome(createRestauranteRecord.getNome());
         restaurante.setEndereco(createRestauranteRecord.getEndereco());
@@ -61,6 +85,20 @@ public class RestauranteService {
         Restaurante restaurante = restaurantesRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado!"));
 
+        // validate idUsuario in update as well
+        if (updateRestauranteRecord.getIdUsuario() == null || updateRestauranteRecord.getIdUsuario().isBlank()) {
+            throw new InvalidRestauranteException("idUsuario é obrigatório");
+        }
+        Long usuarioIdUpdate;
+        try {
+            usuarioIdUpdate = Long.parseLong(updateRestauranteRecord.getIdUsuario());
+        } catch (NumberFormatException ex) {
+            throw new InvalidRestauranteException("idUsuario inválido");
+        }
+        if (usuarioRepository.findUsuarioById(usuarioIdUpdate).isEmpty()) {
+            throw new InvalidRestauranteException("Usuário não encontrado!");
+        }
+
         restaurante.setNome(updateRestauranteRecord.getNome());
         restaurante.setEndereco(updateRestauranteRecord.getEndereco());
         restaurante.setTipoCozinha(updateRestauranteRecord.getTipoCozinha());
@@ -78,7 +116,7 @@ public class RestauranteService {
     public void deletar(Long id) {
 
         if (!restaurantesRepository.existsById(id)) {
-            throw new IllegalArgumentException("Restaurante não encontrado!");
+            throw new InvalidRestauranteException("Restaurante não encontrado!");
         }
 
         restaurantesRepository.deleteById(id);

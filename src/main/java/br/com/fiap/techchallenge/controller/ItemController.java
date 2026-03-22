@@ -49,7 +49,8 @@ public class ItemController {
     )
 
     @GetMapping("/restaurantes/{restauranteId}")
-    public ResponseEntity<List<Item>> findItensByRestaurante(@PathVariable("restauranteId") Long restauranteId,
+    public ResponseEntity<List<Item>> findItensByRestaurante(@Valid
+                                                             @PathVariable("restauranteId") Long restauranteId,
                                                              @RequestParam("page") Integer page,
                                                              @RequestParam("size") Integer size) {
         if (restauranteId == null) throw new BadRequestException("restauranteId é obrigatório");
@@ -69,7 +70,7 @@ public class ItemController {
             }
     )
     @GetMapping(path = "/buscaNome")
-    public ResponseEntity<Item> findItemByNome(@RequestParam("nome") String nome) {
+    public ResponseEntity<Item> findItemByNome(@Valid @RequestParam("nome") String nome) {
 
         if (nome == null || nome.isBlank()) {
             throw new BadRequestException("Parâmetro 'nome' é obrigatório");

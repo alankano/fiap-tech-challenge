@@ -49,7 +49,8 @@ public class RestauranteController {
             }
     )
     @GetMapping
-    public ResponseEntity<List<Restaurante>> findAllRestaurante(@RequestParam("page") Integer page,
+    public ResponseEntity<List<Restaurante>> findAllRestaurante(@Valid
+                                                                @RequestParam("page") Integer page,
                                                                 @RequestParam("size") Integer size) {
 
         if (page == null || size == null) {
@@ -75,8 +76,8 @@ public class RestauranteController {
                     @ApiResponse(description = "Erro no envio dos parâmetros", responseCode = "400")
             }
     )
-    @GetMapping(path = "/buscaNome")
-    public ResponseEntity<Restaurante> findRestauranteByNome(@RequestParam("nome") String nome) {
+        @GetMapping(path = "/buscaNome")
+    public ResponseEntity<Restaurante> findRestauranteByNome(@Valid @RequestParam("nome") String nome) {
 
         if (nome == null || nome.isBlank()) {
             throw new BadRequestException("Parâmetro 'nome' é obrigatório");
@@ -101,15 +102,17 @@ public class RestauranteController {
             }
     )
     @PostMapping
-    public ResponseEntity<ResponseRestauranteRecord> saveRestaurante(@RequestBody CreateRestauranteRecord createRestauranteRecord) {
+    public ResponseEntity<ResponseRestauranteRecord> saveRestaurante(@Valid
+                                                                     @RequestBody
+                                                                     CreateRestauranteRecord createRestauranteRecord) {
 
         //logger.info("Buscando restaurante pelo nome: {}", nome);
         ResponseRestauranteRecord response = restauranteService.criar(createRestauranteRecord);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @Operation(description = "Update do restaurante por id",
-            summary = "Update do restaurante por id",
+    @Operation(description = "Create do restaurante por id",
+            summary = "Create do restaurante por id",
             parameters = {
                     @Parameter(name = "id", description = "ID do restaurante", example = "1"),
             },
@@ -149,7 +152,9 @@ public class RestauranteController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRestaurante(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteRestaurante(@PathVariable("id")
+                                                  @Valid
+                                                  Long id) {
         logger.info("Excluindo restaurante ID: {}", id);
         restauranteService.deletar(id);
         return ResponseEntity.status(204).build();
