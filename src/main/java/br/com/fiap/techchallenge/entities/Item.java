@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,13 +9,12 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "itens")
-public class Itens implements Serializable {
+public class Item implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -42,5 +42,10 @@ public class Itens implements Serializable {
 
     @Schema(description = "Foto do prato", example = "/caminho/da/foto.jpg")
     @Column(name = "imagem", precision=10, scale = 2)
-    private BigDecimal imagem;
+    private String imagem;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurante_id")
+    @JsonBackReference
+    private Restaurante restaurante;
 }

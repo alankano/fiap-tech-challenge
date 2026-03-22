@@ -13,8 +13,3 @@ CREATE TABLE IF NOT EXISTS usuarios (
 --('Alan Kano', 'alan.kano@gmail.com', 'alankano', 'alan123', CURRENT_DATE , 'SAO PAULO, SP', '1'),
 --('mozao', 'mozao@gmail.com', 'mozao', 'mozao123', CURRENT_DATE , 'SAO PAULO, SP', '2'),
 --('mozao', 'mozao1@gmail.com', 'mozao', 'mozao123', CURRENT_DATE , 'SAO PAULO, SP', '2');
-
-CREATE TABLE IF NOT EXISTS tipoUsuarios (
-    idTipo BIGINT AUTO_INCREMENT PRIMARY KEY,
-    tipo VARCHAR(255) NOT NULL
-);

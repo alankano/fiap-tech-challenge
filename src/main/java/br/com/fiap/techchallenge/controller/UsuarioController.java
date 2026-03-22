@@ -8,8 +8,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +96,7 @@ public class UsuarioController {
                     @ApiResponse(description = "Erro no envio dos parâmetros", responseCode = "400")
             }
     )
+
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Usuario>> findUsuarioById(@PathVariable("id") Long id) {
         if (id == null) {
