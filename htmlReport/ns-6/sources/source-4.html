@@ -1,0 +1,100 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Senha</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.fiap.techchallenge.entities</a>
+</div>
+
+<h1>Coverage Summary for Class: Senha (br.com.fiap.techchallenge.entities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Senha</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.entities;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;import lombok.Setter;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;
+&nbsp;@Getter
+&nbsp;@Setter
+&nbsp;@NoArgsConstructor
+&nbsp;@AllArgsConstructor
+&nbsp;public class Senha {
+&nbsp;
+&nbsp;    @Schema(description = &quot;Id do usuário&quot;, example = &quot;1&quot;)
+&nbsp;    private Long id;
+&nbsp;
+&nbsp;    @Schema(description = &quot;Data da ultima alteracao do usuário&quot;, example = &quot;2026-01-16&quot;)
+&nbsp;    private LocalDate dataUltimaAlteracao;
+&nbsp;
+&nbsp;    @Schema(description = &quot;Senha do usuário&quot;, example = &quot;123&quot;)
+&nbsp;    private String senha;
+&nbsp;
+&nbsp;    @Schema(description = &quot;Nova senha do usuario 1&quot;, example = &quot;321&quot;)
+&nbsp;    private String novaSenha;
+&nbsp;
+&nbsp;    @Schema(description = &quot;Nova senha do usuario 2&quot;, example = &quot;321&quot;)
+&nbsp;    private String novaSenha2;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-22 23:49</div>
+</div>
+</body>
+</html>

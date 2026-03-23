@@ -1,0 +1,98 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TipoUsuarioRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.fiap.techchallenge.repositories</a>
+</div>
+
+<h1>Coverage Summary for Class: TipoUsuarioRepository (br.com.fiap.techchallenge.repositories)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">TipoUsuarioRepository$MockitoMock$a2RjYPyZ</td>
+  </tr>
+  <tr>
+    <td class="name">TipoUsuarioRepository$MockitoMock$a2RjYPyZ$auxiliary$HrGqVUFX</td>
+  </tr>
+  <tr>
+    <td class="name">TipoUsuarioRepository$MockitoMock$a2RjYPyZ$auxiliary$LBa9r6i1</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.repositories;
+&nbsp;
+&nbsp;import br.com.fiap.techchallenge.entities.TipoUsuario;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface TipoUsuarioRepository extends JpaRepository&lt;TipoUsuario, Long&gt; {
+&nbsp;
+&nbsp;    @Query(value = &quot;SELECT * FROM tipo_usuario LIMIT :size OFFSET :offset&quot;, nativeQuery = true)
+&nbsp;    List&lt;TipoUsuario&gt; findAllTipoUsuario(@Param(&quot;size&quot;) int size, @Param(&quot;offset&quot;) int offset);
+&nbsp;
+&nbsp;    java.util.Optional&lt;TipoUsuario&gt; findByTipo(String tipo);
+&nbsp;
+&nbsp;    boolean existsByTipo(String tipo);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-22 23:49</div>
+</div>
+</body>
+</html>

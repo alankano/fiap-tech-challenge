@@ -1,0 +1,105 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ItemRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.fiap.techchallenge.repositories</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemRepository (br.com.fiap.techchallenge.repositories)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$2iRgRgM9</td>
+  </tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$2iRgRgM9$auxiliary$Fs1v11MY</td>
+  </tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$2iRgRgM9$auxiliary$Nl0VdIFL</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.repositories;
+&nbsp;
+&nbsp;import br.com.fiap.techchallenge.entities.Item;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface ItemRepository extends JpaRepository&lt;Item, Long&gt; {
+&nbsp;
+&nbsp;    @Query(value = &quot;SELECT * FROM itens LIMIT :size OFFSET :offset&quot;, nativeQuery = true)
+&nbsp;    Optional &lt;List&lt;Item&gt;&gt; findByRestauranteId(Long restauranteId, @Param(&quot;size&quot;) int size, @Param(&quot;offset&quot;) int offset);
+&nbsp;
+&nbsp;    java.util.Optional&lt;Item&gt; findByNome(String nome);
+&nbsp;    java.util.Optional&lt;Item&gt; findByNomeAndRestauranteId(String nome, Long restauranteId);
+&nbsp;
+&nbsp;    boolean existsByNome(String nome);
+&nbsp;    boolean existsByNomeAndRestauranteId(String nome, Long restauranteId);
+&nbsp;
+&nbsp;    // Check if a Restaurante with given id exists (querying the Restaurante entity)
+&nbsp;    @Query(&quot;select case when count(r)&gt;0 then true else false end from Restaurante r where r.id = :id&quot;)
+&nbsp;    boolean existsRestauranteById(@Param(&quot;id&quot;) Long id);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-22 23:49</div>
+</div>
+</body>
+</html>

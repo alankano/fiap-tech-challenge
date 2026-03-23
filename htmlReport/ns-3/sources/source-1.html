@@ -1,0 +1,276 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ItemController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.fiap.techchallenge.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemController (br.com.fiap.techchallenge.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (20/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.controller;
+&nbsp;
+&nbsp;import br.com.fiap.techchallenge.dto.CreateItemRecord;
+&nbsp;import br.com.fiap.techchallenge.dto.ResponseItemRecord;
+&nbsp;import br.com.fiap.techchallenge.dto.UpdateItemRecord;
+&nbsp;import br.com.fiap.techchallenge.entities.Item;
+&nbsp;import br.com.fiap.techchallenge.services.ItemService;
+&nbsp;import br.com.fiap.techchallenge.services.exceptions.BadRequestException;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.Parameter;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/itens&quot;)
+&nbsp;@Tag(name = &quot;Itens&quot;, description = &quot;API de gerenciamento de itens do restaurante&quot;)
+&nbsp;public class ItemController {
+&nbsp;
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(ItemController.class);</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private final ItemService itemService;
+&nbsp;
+<b class="fc">&nbsp;    public ItemController(ItemService itemService) {</b>
+<b class="fc">&nbsp;        this.itemService = itemService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(description = &quot;Buscar todos os itens do restaurante com paginação&quot;,
+&nbsp;            summary = &quot;Busca todos os itens&quot;,
+&nbsp;            parameters = {
+&nbsp;                    @Parameter(name = &quot;page&quot;, description = &quot;Número da página&quot;, example = &quot;0&quot;),
+&nbsp;                    @Parameter(name = &quot;size&quot;, description = &quot;Quantidade de itens por página&quot;, example = &quot;10&quot;)
+&nbsp;            },
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(description = &quot;OK&quot;, responseCode = &quot;200&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro interno do servidor&quot;, responseCode = &quot;500&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro no envio dos parâmetros&quot;, responseCode = &quot;400&quot;)
+&nbsp;
+&nbsp;            }
+&nbsp;    )
+&nbsp;
+&nbsp;    @GetMapping(&quot;/restaurantes/{restauranteId}&quot;)
+&nbsp;    public ResponseEntity&lt;List&lt;Item&gt;&gt; findItensByRestaurante(@Valid
+&nbsp;                                                             @PathVariable(&quot;restauranteId&quot;) Long restauranteId,
+&nbsp;                                                             @RequestParam(&quot;page&quot;) Integer page,
+&nbsp;                                                             @RequestParam(&quot;size&quot;) Integer size) {
+<b class="pc">&nbsp;        if (restauranteId == null) throw new BadRequestException(&quot;restauranteId é obrigatório&quot;);</b>
+<b class="fc">&nbsp;        var itens = itemService.acharItensPorRestaurante(restauranteId, page, size);</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(itens);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(description = &quot;Buscar itens pelo nome&quot;,
+&nbsp;            summary = &quot;Busca pelo nome&quot;,
+&nbsp;            parameters = {
+&nbsp;                    @Parameter(name = &quot;nome&quot;, description = &quot;Nome do restaurante&quot;, example = &quot;Restaurante Saboroso&quot;)
+&nbsp;            },
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(description = &quot;OK&quot;, responseCode = &quot;200&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro interno do servidor&quot;, responseCode = &quot;500&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro no envio dos parâmetros&quot;, responseCode = &quot;400&quot;)
+&nbsp;            }
+&nbsp;    )
+&nbsp;    @GetMapping(path = &quot;/buscaNome&quot;)
+&nbsp;    public ResponseEntity&lt;Item&gt; findItemByNome(@Valid @RequestParam(&quot;nome&quot;) String nome) {
+&nbsp;
+<b class="nc">&nbsp;        if (nome == null || nome.isBlank()) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Parâmetro &#39;nome&#39; é obrigatório&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        logger.info(&quot;Buscando item pelo nome: {}&quot;, nome);</b>
+<b class="nc">&nbsp;        var item = itemService.findByNomeItem(nome);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(item);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(description = &quot;Salva item do restaurante&quot;,
+&nbsp;            summary = &quot;Salva item&quot;,
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;                    description = &quot;Dados do item a ser criado&quot;,
+&nbsp;                    required = true
+&nbsp;            ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(description = &quot;OK&quot;, responseCode = &quot;204&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro interno do servidor&quot;, responseCode = &quot;500&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro no envio dos parâmetros&quot;, responseCode = &quot;400&quot;)
+&nbsp;
+&nbsp;            }
+&nbsp;    )
+&nbsp;    @PostMapping
+&nbsp;    public ResponseEntity&lt;Item&gt; saveItem(@RequestParam(&quot;restauranteId&quot;) Long restauranteId,
+&nbsp;                                         @Valid @RequestBody CreateItemRecord createItemRecord) {
+<b class="fc">&nbsp;        Item item = new Item();</b>
+<b class="fc">&nbsp;        item.setNome(createItemRecord.getNome());</b>
+<b class="fc">&nbsp;        item.setDescricao(createItemRecord.getDescricao());</b>
+<b class="fc">&nbsp;        item.setPreco(createItemRecord.getPreco());</b>
+<b class="fc">&nbsp;        item.setDisponibilidade(createItemRecord.getDisponibilidade());</b>
+<b class="fc">&nbsp;        item.setImagem(createItemRecord.getImagem());</b>
+&nbsp;
+<b class="fc">&nbsp;        Item saved = itemService.criar(item, restauranteId);</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED).body(saved);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(description = &quot;Update do item por id&quot;,
+&nbsp;            summary = &quot;Update do item por id&quot;,
+&nbsp;            parameters = {
+&nbsp;                    @Parameter(name = &quot;id&quot;, description = &quot;ID do item&quot;, example = &quot;1&quot;),
+&nbsp;            },
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;                    description = &quot;Update de item por id&quot;,
+&nbsp;                    required = true
+&nbsp;            ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(description = &quot;OK&quot;, responseCode = &quot;200&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro interno do servidor&quot;, responseCode = &quot;500&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro no envio dos parâmetros&quot;, responseCode = &quot;400&quot;)
+&nbsp;
+&nbsp;            }
+&nbsp;    )
+&nbsp;    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;Void&gt; updateItem(@PathVariable(&quot;id&quot;) Long id,
+&nbsp;                                           @Valid
+&nbsp;                                           @RequestBody
+&nbsp;                                           UpdateItemRecord updateItemRecord) {
+<b class="fc">&nbsp;        logger.info(&quot;Atualizando item ID: {}&quot;, id);</b>
+<b class="fc">&nbsp;        itemService.atualizar(id, updateItemRecord);</b>
+<b class="fc">&nbsp;        return ResponseEntity.noContent().build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(description = &quot;Delecao de item por id&quot;,
+&nbsp;            summary = &quot;Delecao de item por id&quot;,
+&nbsp;            parameters = {
+&nbsp;                    @Parameter(name = &quot;id&quot;, description = &quot;ID do item&quot;, example = &quot;1&quot;),
+&nbsp;            },
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;                    description = &quot;Delecao de item por id&quot;,
+&nbsp;                    required = true
+&nbsp;            ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(description = &quot;OK&quot;, responseCode = &quot;200&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro interno do servidor&quot;, responseCode = &quot;500&quot;),
+&nbsp;                    @ApiResponse(description = &quot;Erro no envio dos parâmetros&quot;, responseCode = &quot;400&quot;)
+&nbsp;
+&nbsp;            }
+&nbsp;    )
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;Void&gt; deleteItem(@PathVariable(&quot;id&quot;) Long id) {
+<b class="fc">&nbsp;        logger.info(&quot;Excluindo restaurante ID: {}&quot;, id);</b>
+<b class="fc">&nbsp;        itemService.deletar(id);</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(204).build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-22 23:49</div>
+</div>
+</body>
+</html>
