@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ExceptionDto {
 
-
     private String message;
     private int status;
 

@@ -1,6 +1,8 @@
 package br.com.fiap.techchallenge.entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,8 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@Entity
+//@Table(name = "Login")
 public class Login {
 
     @Schema(description = "Login do usuário", example = "alankano")

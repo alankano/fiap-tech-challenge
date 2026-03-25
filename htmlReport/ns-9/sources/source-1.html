@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ItemService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.fiap.techchallenge.services</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemService (br.com.fiap.techchallenge.services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/31)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ItemService$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/31)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.services;
+&nbsp;
+&nbsp;import br.com.fiap.techchallenge.dto.*;
+&nbsp;import br.com.fiap.techchallenge.entities.Item;
+&nbsp;import br.com.fiap.techchallenge.entities.Restaurante;
+&nbsp;import br.com.fiap.techchallenge.repositories.ItemRepository;
+&nbsp;import br.com.fiap.techchallenge.repositories.RestaurantesRepository;
+&nbsp;import br.com.fiap.techchallenge.services.exceptions.InvalidItemException;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class ItemService {
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private final ItemRepository itemRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private final RestaurantesRepository restaurantesRepository;
+&nbsp;
+<b class="fc">&nbsp;    public ItemService(ItemRepository itemRepository, RestaurantesRepository restaurantesRepository) {</b>
+<b class="fc">&nbsp;        this.itemRepository = itemRepository;</b>
+<b class="fc">&nbsp;        this.restaurantesRepository = restaurantesRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Item&gt; acharItensPorRestaurante(Long restauranteId, int page, int size) {
+<b class="fc">&nbsp;        if (page &lt; 0 || size &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new InvalidItemException(&quot;page must be &gt;= 0 and size &gt; 0&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        if (restauranteId == null || !itemRepository.existsRestauranteById(restauranteId)) {</b>
+<b class="fc">&nbsp;            throw new InvalidItemException(&quot;Restaurante não encontrado!&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int offset = (page - 1) * size;</b>
+<b class="fc">&nbsp;        return itemRepository.findByRestauranteId(restauranteId, size, offset).orElseThrow(() -&gt; new InvalidItemException(&quot;Restaurante não encontrado&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Item findByNomeItem(String nome) {
+<b class="fc">&nbsp;        return itemRepository.findByNome(nome).orElseThrow(() -&gt; new InvalidItemException(&quot;Item não encontrado&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public Item criar(Item item, Long restauranteId) {
+&nbsp;
+&nbsp;        // Check uniqueness per restaurante
+<b class="fc">&nbsp;        if (itemRepository.existsByNomeAndRestauranteId(item.getNome(), restauranteId)) {</b>
+<b class="fc">&nbsp;            throw new InvalidItemException(&quot;Item com este nome já existe neste restaurante!&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // validate restaurante exists using repository method
+<b class="fc">&nbsp;        if (restauranteId == null || !itemRepository.existsRestauranteById(restauranteId)) {</b>
+<b class="fc">&nbsp;            throw new InvalidItemException(&quot;Restaurante não encontrado!&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // fetch restaurante and associate
+<b class="fc">&nbsp;        Restaurante restaurante = restaurantesRepository.findById(restauranteId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new InvalidItemException(&quot;Restaurante não encontrado!&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;        item.setRestaurante(restaurante);</b>
+<b class="fc">&nbsp;        return itemRepository.save(item);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public ResponseItemRecord atualizar(Long id, UpdateItemRecord updateItemRecord) {
+&nbsp;
+<b class="fc">&nbsp;        Item item = itemRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new InvalidItemException(&quot;Item não encontrado!&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;        item.setNome(updateItemRecord.getNome());</b>
+<b class="fc">&nbsp;        item.setDescricao(updateItemRecord.getDescricao());</b>
+<b class="fc">&nbsp;        item.setPreco(updateItemRecord.getPreco());</b>
+<b class="fc">&nbsp;        item.setDisponibilidade(updateItemRecord.getDisponibilidade());</b>
+<b class="fc">&nbsp;        item.setImagem(updateItemRecord.getImagem());</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        Item salvo = itemRepository.save(item);</b>
+&nbsp;
+<b class="fc">&nbsp;        return converterParaResponse(salvo);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void deletar(Long id) {
+&nbsp;
+<b class="fc">&nbsp;        if (!itemRepository.existsById(id)) {</b>
+<b class="fc">&nbsp;            throw new InvalidItemException(&quot;Item não encontrado!&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        itemRepository.deleteById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private ResponseItemRecord converterParaResponse(Item item) {
+<b class="fc">&nbsp;        return new ResponseItemRecord(item);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-22 23:49</div>
+</div>
+</body>
+</html>
