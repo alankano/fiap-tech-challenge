@@ -812,4 +812,4 @@ Contato
 - Autor: Alan Kano (@alankano)
 - Email: alan.kano2@gmail.com
 - Repositório: https://github.com/alankano/fiap-tech-challenge
-- Branch: release/0.0.2
+- Branch: main
