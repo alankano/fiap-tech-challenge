@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > UsuarioRepository</title>
+  <title>Coverage Report > RestaurantesRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">br.com.fiap.techchallenge.repositories</a>
 </div>
 
-<h1>Coverage Summary for Class: UsuarioRepository (br.com.fiap.techchallenge.repositories)</h1>
+<h1>Coverage Summary for Class: RestaurantesRepository (br.com.fiap.techchallenge.repositories)</h1>
 
 <table class="coverageStats">
 
@@ -30,13 +30,13 @@ Current scope:     <a href="../../index.html">all classes</a>
   <th class="name">Class</th>
 </tr>
   <tr>
-    <td class="name">UsuarioRepository$MockitoMock$VricBtdV</td>
+    <td class="name">RestaurantesRepository$MockitoMock$r3rtrcFh</td>
   </tr>
   <tr>
-    <td class="name">UsuarioRepository$MockitoMock$VricBtdV$auxiliary$h3Tyv80f</td>
+    <td class="name">RestaurantesRepository$MockitoMock$r3rtrcFh$auxiliary$EcOpIX4c</td>
   </tr>
   <tr>
-    <td class="name">UsuarioRepository$MockitoMock$VricBtdV$auxiliary$VTO7uEXx</td>
+    <td class="name">RestaurantesRepository$MockitoMock$r3rtrcFh$auxiliary$K1XTg9lL</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -50,21 +50,37 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.repositories;
 &nbsp;
-&nbsp;import br.com.fiap.techchallenge.entities.Usuario;
-&nbsp;
+&nbsp;import br.com.fiap.techchallenge.entities.Restaurante;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;import java.util.Optional;
 &nbsp;
-&nbsp;public interface UsuarioRepository {
+&nbsp;@Repository
+&nbsp;public interface RestaurantesRepository extends JpaRepository&lt;Restaurante, Long&gt; {
 &nbsp;
-&nbsp;    Optional&lt;Usuario&gt; findUsuarioById(Long id);
-&nbsp;    Optional&lt;Usuario&gt; findUsuarioByEmail(Usuario usuario);
-&nbsp;    List&lt;Usuario&gt; findUsuarioByNome(String nome);
-&nbsp;    List&lt;Usuario&gt; findUsuarioAll(int size, int offset);
-&nbsp;    Integer saveUsuario(Usuario usuario);
-&nbsp;    Integer updateUsuario(Usuario usuario, Long id);
-&nbsp;    Integer deleteUsuario(Long id);
+&nbsp;    Optional&lt;Restaurante&gt; findByNome(String nome);
+&nbsp;
+&nbsp;    List&lt;Restaurante&gt; findByEndereco(String endereco);
+&nbsp;
+&nbsp;    List&lt;Restaurante&gt; findByTipoCozinha(String tipoCozinha);
+&nbsp;
+&nbsp;    List&lt;Restaurante&gt; findAllByDiasFuncionamento(String diasFuncionamento);
+&nbsp;
+&nbsp;    List&lt;Restaurante&gt; findAllByHorarioAbertura(String horarioAbertura);
+&nbsp;
+&nbsp;    List&lt;Restaurante&gt; findAllByHorarioFechamento(String horarioFechamento);
+&nbsp;
+&nbsp;    // Use a native query for pagination (limit/offset). Parameters are named to avoid method name parsing.
+&nbsp;    @Query(value = &quot;SELECT * FROM restaurantes LIMIT :size OFFSET :offset&quot;, nativeQuery = true)
+&nbsp;    List&lt;Restaurante&gt; findAllRestaurante(@Param(&quot;size&quot;) int size, @Param(&quot;offset&quot;) int offset);
+&nbsp;
+&nbsp;    boolean existsByNome(String nome);
+&nbsp;
+&nbsp;    void deleteByNome(String nome);
 &nbsp;
 &nbsp;}
 </code>
@@ -90,7 +106,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-03-22 23:49</div>
+    <div style="float:right;">generated on 2026-03-23 00:02</div>
 </div>
 </body>
 </html>

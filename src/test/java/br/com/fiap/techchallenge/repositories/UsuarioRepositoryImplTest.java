@@ -48,5 +48,58 @@ class UsuarioRepositoryImplTest {
         var res = repository.findUsuarioAll(10, 0);
         assertFalse(res.isEmpty());
     }
-}
 
+    @Test
+    void findUsuarioByEmail_returnsOptional() {
+        when(sqlQueryLoader.loadQuery("usuario/findUsuarioByEmail")).thenReturn("sql-email");
+        when(jdbcClient.sql("sql-email").param("email", "a@b.com").query(Usuario.class).optional()).thenReturn(Optional.of(new Usuario()));
+
+        Usuario u = new Usuario(); u.setEmail("a@b.com");
+        var res = repository.findUsuarioByEmail(u);
+        assertTrue(res.isPresent());
+    }
+
+    @Test
+    void findUsuarioByNome_returnsList() {
+        when(sqlQueryLoader.loadQuery("usuario/findUsuarioByNome")).thenReturn("sql-nome");
+        when(jdbcClient.sql("sql-nome").param("nome", "joe").query(Usuario.class).list()).thenReturn(List.of(new Usuario()));
+
+        var res = repository.findUsuarioByNome("joe");
+        assertFalse(res.isEmpty());
+    }
+
+    @Test
+    void saveUsuario_returnsInt() {
+        when(sqlQueryLoader.loadQuery("usuario/saveUsuario")).thenReturn("sql-save");
+        when(jdbcClient.sql("sql-save").param("nome", "n").param("email", "e").param("login", "l").param("senha", "s").param("endereco", "en").param("tipoUsuario", "t").update())
+                .thenReturn(1);
+
+        Usuario u = new Usuario();
+        u.setNome("n"); u.setEmail("e"); u.setLogin("l"); u.setSenha("s"); u.setEndereco("en"); u.setTipoUsuario("t");
+
+        Integer res = repository.saveUsuario(u);
+        assertEquals(1, res);
+    }
+
+    @Test
+    void updateUsuario_returnsInt() {
+        when(sqlQueryLoader.loadQuery("usuario/updateUsuario")).thenReturn("sql-update");
+        when(jdbcClient.sql("sql-update").param("nome", "n").param("email", "e").param("login", "l").param("endereco", "en").param("tipoUsuario", "t").param("id", 1L).update())
+                .thenReturn(1);
+
+        Usuario u = new Usuario();
+        u.setNome("n"); u.setEmail("e"); u.setLogin("l"); u.setEndereco("en"); u.setTipoUsuario("t");
+
+        Integer res = repository.updateUsuario(u, 1L);
+        assertEquals(1, res);
+    }
+
+    @Test
+    void deleteUsuario_returnsInt() {
+        when(sqlQueryLoader.loadQuery("usuario/deleteUsuario")).thenReturn("sql-del");
+        when(jdbcClient.sql("sql-del").param("id", 1L).update()).thenReturn(1);
+
+        Integer res = repository.deleteUsuario(1L);
+        assertEquals(1, res);
+    }
+}

@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > SenhaRepository</title>
+  <title>Coverage Report > TipoUsuarioRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">br.com.fiap.techchallenge.repositories</a>
 </div>
 
-<h1>Coverage Summary for Class: SenhaRepository (br.com.fiap.techchallenge.repositories)</h1>
+<h1>Coverage Summary for Class: TipoUsuarioRepository (br.com.fiap.techchallenge.repositories)</h1>
 
 <table class="coverageStats">
 
@@ -30,13 +30,13 @@ Current scope:     <a href="../../index.html">all classes</a>
   <th class="name">Class</th>
 </tr>
   <tr>
-    <td class="name">SenhaRepository$MockitoMock$cvErvzxj</td>
+    <td class="name">TipoUsuarioRepository$MockitoMock$3eXceSuq</td>
   </tr>
   <tr>
-    <td class="name">SenhaRepository$MockitoMock$cvErvzxj$auxiliary$MMez6fBO</td>
+    <td class="name">TipoUsuarioRepository$MockitoMock$3eXceSuq$auxiliary$GUCAp3k5</td>
   </tr>
   <tr>
-    <td class="name">SenhaRepository$MockitoMock$cvErvzxj$auxiliary$yw2JbMMm</td>
+    <td class="name">TipoUsuarioRepository$MockitoMock$3eXceSuq$auxiliary$mF62LoJ2</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -50,15 +50,23 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package br.com.fiap.techchallenge.repositories;
 &nbsp;
-&nbsp;import br.com.fiap.techchallenge.entities.Senha;
-&nbsp;import br.com.fiap.techchallenge.entities.Usuario;
+&nbsp;import br.com.fiap.techchallenge.entities.TipoUsuario;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
-&nbsp;import java.util.Optional;
+&nbsp;import java.util.List;
 &nbsp;
-&nbsp;public interface SenhaRepository {
+&nbsp;@Repository
+&nbsp;public interface TipoUsuarioRepository extends JpaRepository&lt;TipoUsuario, Long&gt; {
 &nbsp;
-&nbsp;    Integer updateSenha(Senha senha, Long id);
-&nbsp;    Optional&lt;Senha&gt; findSenhaById(Long id);
+&nbsp;    @Query(value = &quot;SELECT * FROM tipo_usuario LIMIT :size OFFSET :offset&quot;, nativeQuery = true)
+&nbsp;    List&lt;TipoUsuario&gt; findAllTipoUsuario(@Param(&quot;size&quot;) int size, @Param(&quot;offset&quot;) int offset);
+&nbsp;
+&nbsp;    java.util.Optional&lt;TipoUsuario&gt; findByTipo(String tipo);
+&nbsp;
+&nbsp;    boolean existsByTipo(String tipo);
 &nbsp;
 &nbsp;}
 </code>
@@ -84,7 +92,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-03-22 23:49</div>
+    <div style="float:right;">generated on 2026-03-23 00:02</div>
 </div>
 </body>
 </html>
